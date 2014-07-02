@@ -68,7 +68,8 @@ toUndo(_=> CustomizableUI.destroyWidget(PalettePeek.id));
 
 function onViewShowing(event) {
     let document = event.target.ownerDocument;
-    let palette = document.defaultView.gNavToolbox.palette;
+    let window = document.defaultView;
+    let palette = window.gNavToolbox.palette;
     let palettepeekArea = document.getElementById(ppAreaId);
 
     A.registerArea(ppAreaId, {
@@ -77,7 +78,7 @@ function onViewShowing(event) {
     });
     A.registerToolbarNode(palettepeekArea, []);
 
-    A.getUnusedWidgets(palette).forEach(widget => {
+    orderWidgets(window, A.getUnusedWidgets(palette)).forEach(widget => {
         A.addWidgetToArea(widget.id, ppAreaId);
     });
 
@@ -85,6 +86,19 @@ function onViewShowing(event) {
         A.getPlacementOfWidget(ppWidgetId).area == A.AREA_PANEL;
     palettepeekArea.classList.toggle('panelUI-grid', inPanel);
     palettepeekArea.classList.toggle('widget-overflow-list', !inPanel);
+}
+
+/* Wide widgets go at the top. Returns a new array. */
+function orderWidgets(window, widgets) {
+    let sorted = [];
+    widgets.forEach(w => {
+        if (w.forWindow(window).node.classList.contains('panel-wide-item')) {
+            sorted.unshift(w);
+        } else {
+            sorted.push(w);
+        }
+    });
+    return sorted;
 }
 
 function onViewHiding(event) {
