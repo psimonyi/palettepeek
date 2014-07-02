@@ -1,0 +1,73 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+@-moz-document url('chrome://browser/content/browser.xul') { /* entire file */
+
+/* When our panel is a subview of the main panel, widgets in it should look
+ * kind of like they do in the main panel; this sets up two columns of widgets
+ * (because the subview is narrower and can't fit three).
+ */
+#PanelUI-popup #palettepeek-area {
+    display: block;
+    padding: 0.5em 0;
+}
+#PanelUI-popup #palettepeek-area .toolbarbutton-1 {
+    width: 50%;
+    max-width: 50%;
+}
+
+/* Our subview is a bit narrower than the regular menu panel.  Horizontal
+ * scrolling is worse than just cutting off wide items a bit. */
+#PanelUI-popup #palettepeek-area .panel-wide-item {
+    min-width: 0;
+    max-width: 100%;
+    width: 100%; /* Weird: the search bar doesn't respect max-width. */
+    overflow: hidden;
+}
+
+/* The whole subview is set up to scroll by the panelmultiview XBL bindings,
+ * and it can't handle scrollable items inside a subview.  See comments in
+ * _heightOfSubview (browser/components/customizableui/content/panelUI.xml).
+ * So here we force the area vbox not to do its own scrolling and let the
+ * panelview do it all.  (Otherwise the panelview calculates the wrong height
+ * and you get two scrollbars.)
+ */
+#PanelUI-popup #palettepeek-area {
+    overflow: visible;
+}
+
+
+/* whimsy */
+#PanelUI-popup #palettepeek-area:empty::before {
+    content: "I wish I had a unicorn!";
+    display: block;
+    text-align: center;
+    padding: 0 1em;
+}
+
+
+/* Icons for this extension. */
+
+#palettepeek-widget {
+    list-style-image: url(icon16.png);
+}
+
+#palettepeek-widget[cui-areatype="menu-panel"],
+toolbarpaletteitem[place="palette"] > #palettepeek-widget {
+    list-style-image: url(icon32.png);
+}
+
+/* High-resolution displays */
+@media (min-resolution: 2dppx) {
+    #palettepeek-widget {
+        list-style-image: url(icon32.png);
+    }
+    #palettepeek-widget[cui-areatype="menu-panel"],
+    toolbarpaletteitem[place="palette"] > #palettepeek-widget {
+        list-style-image: url(icon64.png);
+    }
+}
+
+} /* @-moz-document */
+

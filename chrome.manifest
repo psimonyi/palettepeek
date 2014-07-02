@@ -1,0 +1,4 @@
+content palettepeek ./
+skin palettepeek default ./
+locale palettepeek en-CA ./locale/en-CA/
+
