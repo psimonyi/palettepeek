@@ -7,6 +7,7 @@
      xmlns:em='http://www.mozilla.org/2004/em-rdf#'>
 
   <Description about='urn:mozilla:install-manifest'>
+    <em:type>2</em:type>
     <em:id>palettepeek@ns.petersimonyi.ca</em:id>
     <em:name>All the Tools</em:name>
     <em:version>1</em:version>
